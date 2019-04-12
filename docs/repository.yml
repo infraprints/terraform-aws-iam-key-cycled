@@ -1,0 +1,14 @@
+---
+name: AWS IAM Key cycled by Terraform
+slug: iam-key-cycled
+project: infraprints
+namespace: [terraform, aws]
+description: Describes a state graph for cycling IAM Keys.
+license:
+  name: MIT
+tags:
+  - terraform
+  - terraform-module
+  - aws
+  - aws-iam
+  - access-keys
