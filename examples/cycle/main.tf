@@ -14,6 +14,14 @@ output "states" {
   value = "${module.example.states}"
 }
 
+output "key" {
+  value = "${module.example.access_key}"
+}
+
+output "secret" {
+  value = "${module.example.secret_key}"
+}
+
 variable "phase" {
   type        = "string"
   description = "Passthrough of the current state. Used by scripts to automate."
