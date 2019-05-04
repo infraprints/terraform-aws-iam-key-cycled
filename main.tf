@@ -28,10 +28,13 @@ locals {
 }
 
 locals {
-  count1 = "${lookup(local.states[var.phase], "primary", "None") == "None" ? 0 : 1}"
-  count2 = "${lookup(local.states[var.phase], "secondary", "None")== "None" ? 0 : 1}"
   state1 = "${lookup(local.states[var.phase], "primary", "None")}"
   state2 = "${lookup(local.states[var.phase], "secondary", "None")}"
+}
+
+locals {
+  count1 = "${local.state1 == "None" ? 0 : 1}"
+  count2 = "${local.state2 == "None" ? 0 : 1}"
 }
 
 resource "aws_iam_access_key" "key_one" {
