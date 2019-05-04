@@ -46,21 +46,21 @@ locals {
   count2 = "${local.state2 == "None" ? 0 : 1}"
 }
 
-resource "aws_iam_access_key" "key_one" {
+resource "aws_iam_access_key" "primary" {
   count  = "${local.count1}"
   status = "${local.state1}"
   user   = "${var.user}"
 }
 
-resource "aws_iam_access_key" "key_two" {
+resource "aws_iam_access_key" "secondary" {
   count  = "${local.count2}"
   status = "${local.state2}"
   user   = "${var.user}"
 }
 
 locals {
-  keys    = "${concat(aws_iam_access_key.key_one.*.id, aws_iam_access_key.key_two.*.id)}"
-  secrets = "${concat(aws_iam_access_key.key_one.*.secret, aws_iam_access_key.key_two.*.secret)}"
+  keys    = "${concat(aws_iam_access_key.primary.*.id, aws_iam_access_key.secondary.*.id)}"
+  secrets = "${concat(aws_iam_access_key.primary.*.secret, aws_iam_access_key.secondary.*.secret)}"
 
   key    = "${local.keys[element(local.primary, var.phase)]}"
   secret = "${local.secrets[element(local.primary, var.phase)]}"
