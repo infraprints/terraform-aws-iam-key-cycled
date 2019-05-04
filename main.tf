@@ -25,6 +25,15 @@ locals {
       secondary = "Inactive"
     },
   ]
+
+  primary = [
+    0,
+    1,
+    1,
+    1,
+    0,
+    0,
+  ]
 }
 
 locals {
@@ -47,4 +56,12 @@ resource "aws_iam_access_key" "key_two" {
   count  = "${local.count2}"
   status = "${local.state2}"
   user   = "${var.user}"
+}
+
+locals {
+  keys    = "${concat(aws_iam_access_key.key_one.*.id, aws_iam_access_key.key_two.*.id)}"
+  secrets = "${concat(aws_iam_access_key.key_one.*.secret, aws_iam_access_key.key_two.*.secret)}"
+
+  key    = "${local.keys[element(local.primary, var.phase)]}"
+  secret = "${local.secrets[element(local.primary, var.phase)]}"
 }
