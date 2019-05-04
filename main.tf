@@ -1,6 +1,3 @@
-variable "user" {}
-variable "phase" {}
-
 locals {
   states = [
     {
@@ -26,10 +23,6 @@ locals {
     {
       primary   = "Active"
       secondary = "Inactive"
-    },
-    {
-      primary   = "Active"
-      secondary = "None"
     },
   ]
 }

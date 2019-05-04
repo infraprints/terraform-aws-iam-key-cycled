@@ -1,1 +1,2 @@
-
+variable "user" {}
+variable "phase" {}
