@@ -9,3 +9,7 @@ resource "aws_iam_user" "user" {
   name = "infraprints-user"
   path = "/system/"
 }
+
+output "states" {
+  value = "${module.example.states}"
+}
