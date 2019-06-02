@@ -37,31 +37,38 @@ locals {
 }
 
 locals {
-  state1 = "${lookup(local.states[var.phase], "primary", "None")}"
-  state2 = "${lookup(local.states[var.phase], "secondary", "None")}"
+  state1 = lookup(local.states[var.phase], "primary", "None")
+  state2 = lookup(local.states[var.phase], "secondary", "None")
 }
 
 locals {
-  count1 = "${local.state1 == "None" ? 0 : 1}"
-  count2 = "${local.state2 == "None" ? 0 : 1}"
+  count1 = local.state1 == "None" ? 0 : 1
+  count2 = local.state2 == "None" ? 0 : 1
 }
 
 resource "aws_iam_access_key" "primary" {
-  count  = "${local.count1}"
-  status = "${local.state1}"
-  user   = "${var.user}"
+  count  = local.count1
+  status = local.state1
+  user   = var.user
 }
 
 resource "aws_iam_access_key" "secondary" {
-  count  = "${local.count2}"
-  status = "${local.state2}"
-  user   = "${var.user}"
+  count  = local.count2
+  status = local.state2
+  user   = var.user
 }
 
 locals {
-  keys    = "${concat(aws_iam_access_key.primary.*.id, aws_iam_access_key.secondary.*.id)}"
-  secrets = "${concat(aws_iam_access_key.primary.*.secret, aws_iam_access_key.secondary.*.secret)}"
+  keys = concat(
+    aws_iam_access_key.primary.*.id,
+    aws_iam_access_key.secondary.*.id,
+  )
+  secrets = concat(
+    aws_iam_access_key.primary.*.secret,
+    aws_iam_access_key.secondary.*.secret,
+  )
 
-  key    = "${local.keys[element(local.primary, var.phase)]}"
-  secret = "${local.secrets[element(local.primary, var.phase)]}"
+  key    = local.keys[element(local.primary, var.phase)]
+  secret = local.secrets[element(local.primary, var.phase)]
 }
+

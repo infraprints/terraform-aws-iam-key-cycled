@@ -1,2 +1,6 @@
-variable "user" {}
-variable "phase" {}
+variable "user" {
+}
+
+variable "phase" {
+}
+
